@@ -7,3 +7,4 @@ assets/*.css
 /mastodon
 mastodon.log
 assets/robots.txt
+assets/.dat/

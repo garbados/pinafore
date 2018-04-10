@@ -1,10 +1,12 @@
-const express = require('express')
 const compression = require('compression')
+const datDnsMiddleware = require('dat-dns-middleware')
+const express = require('express')
 const sapper = require('sapper')
 const serveStatic = require('serve-static')
 const app = express()
 
 const { PORT = 4002 } = process.env
+const STATIC = 'assets'
 
 // this allows us to do e.g. `fetch('/_api/blog')` on the server
 const fetch = require('node-fetch')
@@ -15,7 +17,8 @@ global.fetch = (url, opts) => {
 
 app.use(compression({ threshold: 0 }))
 
-app.use(serveStatic('assets', {
+app.use(datDnsMiddleware(STATIC))
+app.use(serveStatic(STATIC, {
   setHeaders: (res) => {
     res.setHeader('Cache-Control', 'public,max-age=600')
   }
